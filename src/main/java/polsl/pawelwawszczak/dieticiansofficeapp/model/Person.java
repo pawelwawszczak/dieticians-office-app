@@ -1,8 +1,9 @@
 package polsl.pawelwawszczak.dieticiansofficeapp.model;
 
-public class Person {
+import com.fasterxml.jackson.databind.ser.Serializers;
 
-    private Long id;
+public class Person extends BaseEntity {
+
     private String firstName;
     private String lastName;
 

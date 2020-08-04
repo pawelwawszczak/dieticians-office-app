@@ -2,7 +2,7 @@ package polsl.pawelwawszczak.dieticiansofficeapp.services;
 
 public interface VisitService {
 
-    Patient findById(Long id);
-    Patient save(Patient patient);
-    Set<Patient> findAll();
+    Visit findById(Long id);
+    Visit save(Visit patient);
+    Set<Visit> findAll();
 }
