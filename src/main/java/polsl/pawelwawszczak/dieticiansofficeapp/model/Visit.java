@@ -2,7 +2,7 @@ package polsl.pawelwawszczak.dieticiansofficeapp.model;
 
 import java.io.Serializable;
 
-public class Visit extends BaseEntity {
+public class Visit extends BaseEntity  {
 
     private Dietician dietician;
     private Patient patient;
