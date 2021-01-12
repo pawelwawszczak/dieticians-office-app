@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+import polsl.pawelwawszczak.dieticiansofficeapp.exceptions.UserExistException;
 import polsl.pawelwawszczak.dieticiansofficeapp.model.Dietician;
 import polsl.pawelwawszczak.dieticiansofficeapp.model.Patient;
 import polsl.pawelwawszczak.dieticiansofficeapp.model.User;
@@ -17,19 +18,15 @@ import polsl.pawelwawszczak.dieticiansofficeapp.service.PatientService;
 import polsl.pawelwawszczak.dieticiansofficeapp.service.UserService;
 import polsl.pawelwawszczak.dieticiansofficeapp.web.dto.UserRegistrationDto;
 
-import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
+import javax.validation.Valid;
 
 @Controller
 public class UserRegistrationController {
 
-    private PatientService patientService;
+    private UserService userService;
 
-    private DieticianService dieticianService;
-
-    public UserRegistrationController(PatientService patientService, DieticianService dieticianService) {
-        this.patientService = patientService;
-        this.dieticianService = dieticianService;
+    public UserRegistrationController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/registration")
@@ -40,13 +37,15 @@ public class UserRegistrationController {
     }
 
     @PostMapping("/registration")
-    public String registerUserAccount(UserRegistrationDto userRegistrationDto){
-        if(!userRegistrationDto.isDietician()) {
-            patientService.registerNewPatientAccount(userRegistrationDto);
-        }else{
-            dieticianService.registerNewDieticianAccount(userRegistrationDto);
+    public ModelAndView registerUserAccount(@Valid UserRegistrationDto userRegistrationDto){
+        try {
+            userService.registerNewUserAccount(userRegistrationDto);
+            return new ModelAndView("redirect:/registration?success");
+        } catch (UserExistException userEx) {
+            return new ModelAndView("redirect:/registration?error");
         }
-        return "redirect:/registration?success";
+
+
     }
 
 

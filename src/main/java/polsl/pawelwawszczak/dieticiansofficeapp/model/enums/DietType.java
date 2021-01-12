@@ -1,5 +1,5 @@
 package polsl.pawelwawszczak.dieticiansofficeapp.model.enums;
 
 public enum DietType {
-    REDUKCJA_WAGI, UTRZYMANIE_WAGI, ZWIĘKSZENIE_WAGI
+    Weight_reduction, Muscle_build, Weight_increace
 }

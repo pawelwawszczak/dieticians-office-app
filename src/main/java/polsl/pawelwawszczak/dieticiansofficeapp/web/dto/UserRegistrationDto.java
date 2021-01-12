@@ -1,12 +1,27 @@
 package polsl.pawelwawszczak.dieticiansofficeapp.web.dto;
 
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class UserRegistrationDto {
 
+    @NotNull
+    @NotEmpty
     private String firstName;
+
+    @NotNull
+    @NotEmpty
     private String lastName;
+
+    @NotNull
+    @NotEmpty
     private String emailAddress;
+
+    @NotNull
+    @NotEmpty
     private String password;
+
     private boolean dietician = false;
 
     public UserRegistrationDto() {

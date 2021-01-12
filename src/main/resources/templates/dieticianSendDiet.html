@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Login</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -8,38 +7,41 @@
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/patient/home}">Dietician's Office App</a>
+        <a class="navbar-brand" th:href="@{/dietician/home}">Dietician's Office App</a>
         <ul class="nav navbar-nav">
-            <!--            <li><a th:href="@{/home}">Home</a></li>-->
-            <!--                <li><a th:href="">Page 1</a></li>-->
-            <!--            <li><a th:href="@{/home}">Page 1</a></li>-->
+            <li><a th:href="@{/dietician/view-visits}">View visits</a></li>
+            <li><a th:href="@{/dietician/view-patients}">View patients</a></li>
+            <li><a th:href="@{/dietician/send-diet}">Send diet</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a th:href="@{/registration}">Sign Up</a></li>
-            <li><a th:href="@{/login}">Login</a></li>
+            <li><a th:href="@{/logout}">Logout</a></li>
         </ul>
     </div>
 </nav>
 
 <br>
 <br>
-<h1>PATIENT</h1>
-<h1>Welcome on the home page of Dietician's Office app</h1>
+<br>
 
+<div class="col-md-2 col-md-offset-5">
 <form th:action="@{/dietician/uploadFile}" method="post" enctype="multipart/form-data" th:object="${diet}">
     <div class="form-group">
         <label class="control-label" for="patient"> Patient: </label>
-        <select name="patient" id="patient" th:field="*{patient}">
+        <select class="form-control" name="patient" id="patient" th:field="*{patient}">
             <option th:each="patient : ${patients}"
                     th:value="${patient.emailAddress}" th:text="${patient.emailAddress}"></option>
         </select>
     </div>
-    <input type="file" name="file" multiple required/>
-    <button typ="submit">Submit</button>
-
+    <div class="form-group">
+        <input type="file" name="file">
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Submit</button>
+    </div>
 
 </form>
-
+</div>
 
 </body>
 </html>

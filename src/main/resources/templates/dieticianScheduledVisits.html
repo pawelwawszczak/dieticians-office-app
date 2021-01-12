@@ -8,15 +8,15 @@
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/patient/home}">Dietician's Office App</a>
+        <a class="navbar-brand" th:href="@{/dietician/home}">Dietician's Office App</a>
         <ul class="nav navbar-nav">
-            <!--            <li><a th:href="@{/home}">Home</a></li>-->
-            <!--                <li><a th:href="">Page 1</a></li>-->
-            <!--            <li><a th:href="@{/home}">Page 1</a></li>-->
+            <li><a th:href="@{/dietician/view-visits}">View visits</a></li>
+            <li><a th:href="@{/dietician/view-patients}">View patients</a></li>
+            <li><a th:href="@{/dietician/send-diet}">Send diet</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a th:href="@{/registration}">Sign Up</a></li>
-            <li><a th:href="@{/login}">Login</a></li>
+            <li><a th:href="@{/logout}">Logout</a></li>
         </ul>
     </div>
 </nav>
@@ -24,11 +24,14 @@
 <br>
 <br>
 <br>
-<table>
+<div class="col-md-6 col-md-offset-3">
+<table class="table table-sm">
     <thead>
     <tr>
-        <th> Dietician </th>
-        <th> Visit date </th>
+        <th class="text-center">Visit</th>
+        <th class="text-center">Date</th>
+        <th class="text-center">Cancel visit</th>
+        <th class="text-center"></th>
     </tr>
     </thead>
     <tbody>
@@ -36,11 +39,12 @@
         <td colspan="2"> No visits scheduled </td>
     </tr>
     <tr th:each="visit : ${visits}">
-        <td><span th:text="${visit.id}"> Dietician </span></td>
-        <td><span th:text="${visit.visitDate}"> Visit date </span></td>
-        <td><a th:href="@{/dietician/deleteVisit/{id}(id=${visit.id})}" class="btn btn-warning" t>Delete</a></td>
+        <td class="text-center"><span th:text="${visit.patient.firstName} + ' ' + ${visit.patient.lastName}"> Dietician </span></td>
+        <td class="text-center"><span th:text="${visit.visitDate} + ' ' + ${visit.time}"> Visit date </span></td>
+        <td class="text-center"><a  th:href="@{/dietician/deleteVisit/{id}(id=${visit.id})}" class="btn btn-warning" t>Delete</a></td>
     </tr>
     </tbody>
 </table>
+</div>
 </body>
 </html>

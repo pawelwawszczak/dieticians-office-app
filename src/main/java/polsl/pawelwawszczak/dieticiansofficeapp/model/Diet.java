@@ -8,9 +8,10 @@ public class Diet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     private String fileName;
+    private String docType;
 
     @Lob
     private byte[] data;
@@ -21,17 +22,18 @@ public class Diet {
     public Diet() {
     }
 
-    public Diet(String fileName, byte[] data, Patient patient) {
+    public Diet(String fileName, byte[] data, Patient patient, String docType) {
         this.fileName = fileName;
         this.data = data;
         this.patient = patient;
+        this.docType = docType;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -57,5 +59,13 @@ public class Diet {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public String getDocType() {
+        return docType;
+    }
+
+    public void setDocType(String docType) {
+        this.docType = docType;
     }
 }

@@ -1,55 +1,34 @@
 package polsl.pawelwawszczak.dieticiansofficeapp.service.implementation;
 
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import polsl.pawelwawszczak.dieticiansofficeapp.model.Dietician;
 import polsl.pawelwawszczak.dieticiansofficeapp.model.Patient;
-import polsl.pawelwawszczak.dieticiansofficeapp.model.Role;
 import polsl.pawelwawszczak.dieticiansofficeapp.model.Visit;
-import polsl.pawelwawszczak.dieticiansofficeapp.repository.DieticianRepository;
 import polsl.pawelwawszczak.dieticiansofficeapp.repository.PatientRepository;
-import polsl.pawelwawszczak.dieticiansofficeapp.repository.RoleRepository;
-import polsl.pawelwawszczak.dieticiansofficeapp.service.EmailService;
-import polsl.pawelwawszczak.dieticiansofficeapp.service.PatientService;
-import polsl.pawelwawszczak.dieticiansofficeapp.web.dto.UserRegistrationDto;
+import polsl.pawelwawszczak.dieticiansofficeapp.service.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class PatientServiceImpl implements PatientService {
 
     private final PatientRepository patientRepository;
-    private final RoleRepository roleRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final DieticianRepository dieticianRepository;
+    private DieticianService dieticianService;
     private EmailService emailService;
+    private VisitService visitService;
 
     List<Visit> visits;
 
-    public PatientServiceImpl(PatientRepository patientRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, DieticianRepository dieticianRepository, EmailService emailService) {
+    public PatientServiceImpl(PatientRepository patientRepository, DieticianService dieticianService, EmailService emailService, VisitService visitService) {
         this.patientRepository = patientRepository;
-        this.roleRepository = roleRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.dieticianRepository = dieticianRepository;
+        this.dieticianService = dieticianService;
+        this.visitService = visitService;
         this.emailService = emailService;
+
     }
 
     @Override
-    public Patient registerNewPatientAccount(UserRegistrationDto userRegistrationDto) {
-//        if(!patientEmailExist(userRegistrationDto.getEmailAddress())){
-//            throw new UserAlreadyExistException
-//        }
-        Patient patient = new Patient(userRegistrationDto.getFirstName(),
-                                    userRegistrationDto.getLastName(),
-                                    userRegistrationDto.getEmailAddress(),
-                                    bCryptPasswordEncoder.encode(userRegistrationDto.getPassword()),
-                                    new HashSet<Role>(Arrays.asList(roleRepository.findByName("ROLE_PATIENT"))));
+    public Patient save(Patient patient) {
         return patientRepository.save(patient);
     }
 
@@ -64,26 +43,41 @@ public class PatientServiceImpl implements PatientService {
         patient.setGender(patientForm.getGender());
         patient.setPsychicalActivity(patientForm.getPsychicalActivity());
         patient.setAge(patientForm.getAge());
-        patient.setDietician(dieticianRepository.findByEmailAddress(patientForm.getDietician().getEmailAddress()))  ;
+        patient.setHeight(patientForm.getHeight());
+        patient.setWeight(patientForm.getWeight());
+        patient.setDietician(dieticianService.findByEmailAddress(patientForm.getDietician().getEmailAddress()));
 
         return patientRepository.save(patient);
     }
 
     @Override
-    public void makeVisit(Patient patientForm, LocalDate localDate) {
+    public String makeVisit(Patient patientForm, LocalDate localDate, String time) {
         Patient patient = patientRepository.findByEmailAddress(patientForm.getEmailAddress());
-        if(patientForm.getVisits() == null){
+        Visit visit = new Visit(patient, dieticianService.findByEmailAddress(patient.getDietician().getEmailAddress()), localDate, time);
+        if (patient.getVisits() == null) {
             visits = new ArrayList<>();
-        } else{
-            visits = patientForm.getVisits();
+        } else {
+            visits = patient.getVisits();
         }
-        visits.add(new Visit(patient, dieticianRepository.findByEmailAddress(patient.getDietician().getEmailAddress()), localDate));
-        patient.setVisits(visits);
-        patientRepository.save(patient);
-        emailService.sendVisitConfirmationEmail(patient.getEmailAddress(), localDate);
+        switch(visitService.checkIfAlreadyExist(visit)){
+            case "1":
+                return "Closing hours";
+            case "2":
+                return "Same day&hour";
+            default:
+                visits.add(visit);
+                patient.setVisits(visits);
+                patientRepository.save(patient);
+                emailService.sendVisitConfirmationToDietician(patient.getDietician().getEmailAddress(), localDate);
+                emailService.sendVisitConfirmationToPatient(patient.getEmailAddress(), localDate);
+                return "";
+        }
     }
 
-//    private Dietician dieticianConverter(String dietician){
-//        return dieticianRepository.findByEmailAddress(dietician);
-//    }
+    @Override
+    public void deleteVisit(Long id) {
+        emailService.sendVisitRemovalEmailToDietician(visitService.findById(id).get().getDietician().getEmailAddress(), visitService.findById(id).get().getVisitDate());
+        visitService.deleteById(id);
+    }
+
 }

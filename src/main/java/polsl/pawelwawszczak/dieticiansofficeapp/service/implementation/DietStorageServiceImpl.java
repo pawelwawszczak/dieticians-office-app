@@ -28,7 +28,7 @@ public class DietStorageServiceImpl implements DietStorageService {
     public Diet store(MultipartFile file, Patient patient){
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         try{
-            Diet dietFile = new Diet(fileName, file.getBytes(), patientRepository.findByEmailAddress(patient.getEmailAddress()));
+            Diet dietFile = new Diet(fileName, file.getBytes(), patientRepository.findByEmailAddress(patient.getEmailAddress()), file.getContentType());
             return dietRepository.save(dietFile);
         }
         catch (Exception e){

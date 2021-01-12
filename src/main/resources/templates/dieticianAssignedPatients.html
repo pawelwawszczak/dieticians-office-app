@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/dietician/home}">Dietician's Office App</a>
+        <ul class="nav navbar-nav">
+            <li><a th:href="@{/dietician/view-visits}">View visits</a></li>
+            <li><a th:href="@{/dietician/view-patients}">View patients</a></li>
+            <li><a th:href="@{/dietician/send-diet}">Send diet</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/registration}">Sign Up</a></li>
+            <li><a th:href="@{/logout}">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+<br>
+<br>
+<br>
+
+<div class="col-md-8 col-md-offset-2">
+<table class="table">
+    <thead>
+    <tr>
+        <th class="text-center">  </th>
+        <th class="text-center"> Name </th>
+        <th class="text-center"> Gender </th>
+        <th class="text-center"> Psychical activity </th>
+        <th class="text-center"> Age </th>
+        <th class="text-center"> Weight </th>
+        <th class="text-center"> Height </th>
+        <th class="text-center"> Diet type </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${patients.isEmpty()}">
+        <td colspan="2"> No patients </td>
+    </tr>
+    <tr th:each="patient : ${patients}">
+        <td class="text-center"><span th:text="${patient.firstName} + ' ' + ${patient.lastName}">  </span></td>
+        <td class="text-center"><span th:text="${patient.gender}">  </span></td>
+        <td class="text-center"><span th:text="${patient.psychicalActivity}">  </span></td>
+        <td class="text-center"><span th:text="${patient.age}">  </span></td>
+        <td class="text-center"><span th:text="${patient.weight}">  </span></td>
+        <td class="text-center"><span th:text="${patient.height}">  </span></td>
+        <td class="text-center"><span th:text="${patient.dietType}">  </span></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>

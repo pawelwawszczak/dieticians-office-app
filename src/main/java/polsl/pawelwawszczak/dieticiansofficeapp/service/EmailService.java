@@ -8,5 +8,8 @@ import java.time.LocalDate;
 @Service
 public interface EmailService {
 
-    void sendVisitConfirmationEmail(String to, LocalDate localDate);
+    void sendVisitConfirmationToDietician(String to, LocalDate localDate);
+    void sendVisitConfirmationToPatient(String to, LocalDate localDate);
+    void sendVisitRemovalEmailToDietician(String to, LocalDate localDate);
+    void sendVisitRemovalEmailToPatient(String to, LocalDate localDate);
 }

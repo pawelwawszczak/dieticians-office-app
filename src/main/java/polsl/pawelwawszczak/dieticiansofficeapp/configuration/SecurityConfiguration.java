@@ -1,5 +1,6 @@
 package polsl.pawelwawszczak.dieticiansofficeapp.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -22,8 +23,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private UserService userService;
     private AuthenticationSuccessHandler authenticationSuccessHandler;
 
-    public SecurityConfiguration(UserService userService, AuthenticationSuccessHandler authenticationSuccessHandler) {
-        this.userService = userService;
+    public SecurityConfiguration(AuthenticationSuccessHandler authenticationSuccessHandler) {
         this.authenticationSuccessHandler = authenticationSuccessHandler;
     }
 
@@ -65,8 +65,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .permitAll()
                     .and()
                     .logout()
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                     .logoutSuccessUrl("/login?logout")
                     .permitAll();
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }

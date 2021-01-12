@@ -5,7 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import polsl.pawelwawszczak.dieticiansofficeapp.editor.CustomDieticianEditor;
 import polsl.pawelwawszczak.dieticiansofficeapp.editor.CustomPatientEditor;
 import polsl.pawelwawszczak.dieticiansofficeapp.model.Diet;
 import polsl.pawelwawszczak.dieticiansofficeapp.model.Dietician;
@@ -15,7 +14,6 @@ import polsl.pawelwawszczak.dieticiansofficeapp.service.DieticianService;
 import polsl.pawelwawszczak.dieticiansofficeapp.service.PatientService;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -38,7 +36,7 @@ public class UploadController {
         Set<Patient> patients = dietician.getPatients();
         model.addAttribute("diet", diet);
         model.addAttribute("patients", patients);
-        return "sendDietView";
+        return "dieticianSendDiet";
     }
 
     @PostMapping("/dietician/uploadFile")
