@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Set Visit</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/patient/home}">Dietician's Office App</a>
+        <ul class="nav navbar-nav">
+            <li><a th:href="@{/patient/update-data}">Update data</a></li>
+            <li><a th:href="@{/patient/view-visits}">View visits</a></li>
+            <li><a th:href="@{/patient/set-visit}">Set visit</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/registration}">Sign Up</a></li>
+            <li><a th:href="@{/logout}">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+<br>
+<br>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form th:action="@{/patient/set-visit}" method="post" th:object="${patient}">
+                <input id="emailAddress" th:field="*{emailAddress}" type="hidden"/>
+
+                <div class="form-group">
+                    <label class="control-label" for="date"> Please select date: </label>
+                    <input type="date" id="date" class="form-control" th:field="${visit.visitDate}"
+                           required autofocus="autofocus"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="time">Please select time:</label>
+                    <input type="time" id="time" placeholder="Time" class="form-control timepicker"
+                           th:field="${visit.time}"/>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Sumbit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

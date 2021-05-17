@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/patient/home}">Dietician's Office App</a>
+        <ul class="nav navbar-nav">
+            <li><a th:href="@{/patient/update-data}">Update data</a></li>
+            <li><a th:href="@{/patient/view-visits}">View visits</a></li>
+            <li><a th:href="@{/patient/set-visit}">Set visit</a></li>
+            <li><a th:href="@{/patient/get-diet}">Get diet</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/registration}">Sign Up</a></li>
+            <li><a th:href="@{/logout}">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+<br>
+<br>
+<br>
+
+<div class="col-md-8 col-md-offset-2">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-ceter">Id</th>
+                <th class="text-ceter">File name</th>
+                <th class="text-ceter">Patient name</th>
+                <th class="text-ceter">Download link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="diet: ${diets}">
+                <td class="text-ceter" th:text="${diet.id}"></td>
+                <td class="text-ceter" th:text="${diet.fileName}"></td>
+                <td class="text-ceter" th:text="${diet.patient.firstName} + ' ' + ${diet.patient.lastName}"></td>
+                <td class="text-ceter"><a th:href="@{'/patient/download-diet/'+${diet.id}}" class="btn btn-warning">Download</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>

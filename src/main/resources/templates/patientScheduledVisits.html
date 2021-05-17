@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>View scheduled visits</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/patient/home}">Dietician's Office App</a>
+        <ul class="nav navbar-nav">
+            <li><a th:href="@{/patient/update-data}">Update data</a></li>
+            <li><a th:href="@{/patient/view-visits}">View visits</a></li>
+            <li><a th:href="@{/patient/set-visit}">Set visit</a></li>
+            <li><a th:href="@{/patient/get-diet}">Get diet</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/registration}">Sign Up</a></li>
+            <li><a th:href="@{/logout}">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+    <br>
+    <br>
+    <br>
+<div class="col-md-8 col-md-offset-2">
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th class="text-center">Dietician</th>
+            <th class="text-center">Date</th>
+            <th class="text-center">Cancel visit</th>
+            <th class="text-center"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${visits.isEmpty()}">
+            <td colspan="2"> No visits scheduled </td>
+        </tr>
+        <tr th:each="visit : ${visits}">
+            <td class="text-center"><span th:text="${visit.dietician.firstName} + ' ' + ${visit.dietician.lastName}"> Dietician </span></td>
+            <td class="text-center"><span th:text="${visit.visitDate} + ' ' + ${visit.time}"> Visit date </span></td>
+            <td class="text-center"><a  th:href="@{/patient/deleteVisit/{id}(id=${visit.id})}" class="btn btn-warning" t>Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
