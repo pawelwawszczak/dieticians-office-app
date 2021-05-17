@@ -30,18 +30,6 @@ public class PatientController {
         this.visitService = visitService;
     }
 
-    //
-//
-//    public String updatePatientData(Model model,
-//                                    UserRegistrationDto userRegistrationDto){
-//
-//    }
-
-//    @GetMapping
-//    public String viewUsername(){
-//       currentUserName();
-//    }
-
     @GetMapping("/update-data")
     public String viewUpdateForm(Model model, Principal principal) {
         model.addAttribute("patient", patientService.findByEmailAddress(principal.getName()));
@@ -72,16 +60,10 @@ public class PatientController {
         return "error";
     }
 
-//    @RequestMapping("/username")
-//    public String viewCurrentUsername(Principal principal){
-//        User user = principal.getName();
-//    }
-
     @GetMapping("/set-visit")
     public String viewVisitForm(Model model, Principal principal) {
         model.addAttribute("patient", patientService.findByEmailAddress(principal.getName()));
         model.addAttribute("visit", new Visit());
-//        model.addAttribute("dieticians", dieticianService.findAll());
         return "patientSetVisit";
     }
 

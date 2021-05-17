@@ -50,4 +50,3 @@ public class UploadController {
         binder.registerCustomEditor(Patient.class, new CustomPatientEditor());
     }
 }
-//trzeba w widoku przekazac id pacjenta i potem w parametrze metody store odszukac go z repozytorium

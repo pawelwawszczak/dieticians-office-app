@@ -45,6 +45,7 @@ public class PatientServiceImpl implements PatientService {
         patient.setAge(patientForm.getAge());
         patient.setHeight(patientForm.getHeight());
         patient.setWeight(patientForm.getWeight());
+        patient.setDietType(patientForm.getDietType());
         patient.setDietician(dieticianService.findByEmailAddress(patientForm.getDietician().getEmailAddress()));
 
         return patientRepository.save(patient);
